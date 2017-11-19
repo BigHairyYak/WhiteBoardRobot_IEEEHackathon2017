@@ -46,14 +46,14 @@ func main() {
 		fmt.Printf("Found port: %v\n", port) //Outputs "found port [PORT]" per port on a new line
 	}
 	mode := &serial.Mode{BaudRate: 9600}
-	s, err = serial.Open("/dev/ttyACM0", mode)
+	s, err := serial.Open("/dev/tty.usbmodem1411", mode)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	reader = bufio.NewReader(s)
-	http.HandleFunc("/control", handler) //Will respond only to whatever the pattern is AFTER THIS DEVICE'S IP
 	http.HandleFunc("/", positionResponse)
+	http.HandleFunc("/control", handler) //Will respond only to whatever the pattern is AFTER THIS DEVICE'S IP
 	http.ListenAndServe(":8000", nil)
 }
 func positionResponse(w http.ResponseWriter, r *http.Request) {
@@ -79,7 +79,6 @@ func positionResponse(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("x position = ", xpos)
 	fmt.Println("y position = ", ypos)
 	handler(w, r)
-	control(0, int(xpos), int(ypos))
 }
 func control(command, posX, posY int) { //Putting data type after all variable names sets them all
 	//instruction := {command, posX, posY} THIS IS BAD YOU ARE WRONG
@@ -106,10 +105,7 @@ func control(command, posX, posY int) { //Putting data type after all variable n
 	default:
 		//cry
 	}
-	fmt.Printf("%v\n", instruction)
-	if s == nil {
-		log.Fatal("S is not defined")
-	}
+
 	n, err := s.Write(instruction)
 	if err != nil {
 		log.Fatal(err)
@@ -124,8 +120,7 @@ func control(command, posX, posY int) { //Putting data type after all variable n
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "./index.html")
-	//control(0, 100, 100)
+	control(0, 100, 100)
 	//r.Form.Get("asdfa") //Will interpret ?[PARAM] as input parameters and pull them from it
-	///	fmt.Fprint(w, "Test message")
+	fmt.Fprint(w, "Test message")
 }
