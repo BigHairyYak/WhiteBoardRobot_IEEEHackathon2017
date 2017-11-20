@@ -50,10 +50,17 @@ func main() {
 	//moveMotorsInches(0, 10)
 	//moveToCoordinate(24, 61.75)
 
+	http.HandleFunc("/draw", drawRequest)
+	http.HandleFunc("/command_list", commandListHandler)
 	http.HandleFunc("/control", htmlHandler) //Will respond only to whatever the pattern is AFTER THIS DEVICE'S IP
 	http.HandleFunc("/", positionResponse)
 	http.ListenAndServe(":8000", nil)
 }
+
+func drawRequest(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "index2.html")
+}
+
 func positionResponse(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("method:", r.Method)
 	if r.Method == "POST" {
@@ -78,8 +85,8 @@ func positionResponse(w http.ResponseWriter, r *http.Request) {
 		}
 		fmt.Println("x position = ", xpos)
 		fmt.Println("y position = ", ypos)
-		htmlHandler(w, r)
 		moveToCoordinate(float64(xpos), float64(ypos))
+		htmlHandler(w, r)
 	} else {
 		htmlHandler(w, r)
 	}

@@ -75,10 +75,8 @@ func sendCommand(commandList []byte) {
 	}
 	fmt.Printf("Sent %v bytes\n", n)
 
-	for i := 0; i < 10; i++ {
-		b, _ := reader.ReadByte()
-		fmt.Printf("Read a %d back\b", b)
+	reader.ReadByte()
 
-	}
+	fmt.Println("finished")
 
 }
