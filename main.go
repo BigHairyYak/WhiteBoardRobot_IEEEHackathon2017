@@ -48,7 +48,7 @@ func main() {
 
 	//control(1, -1000, -1000)
 	//moveMotorsInches(0, 10)
-	//moveToCoordinate(24, 61.75)
+	//moveToCoordinate(-48, -20)
 
 	http.HandleFunc("/draw", drawRequest)
 	http.HandleFunc("/command_list", commandListHandler)
