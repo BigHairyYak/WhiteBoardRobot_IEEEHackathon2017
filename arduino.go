@@ -45,14 +45,15 @@ func moveTicks(aTicks, bTicks int) {
 
 	fmt.Printf("%d\t%d\n", aTicks, bTicks)
 
-	var posXH, posXL = uint8(aTicks >> 8), uint8(aTicks & 0xff) //Split aTicks into upper and lower bytes
-	var posYH, posYL = uint8(bTicks >> 8), uint8(bTicks & 0xff) //Split bTicks into upper and lower bytes
+	//var posXH, posXL = uint8(aTicks >> 8), uint8(aTicks & 0xff) //Split aTicks into upper and lower bytes
+	//var posYH, posYL = uint8(bTicks >> 8), uint8(bTicks & 0xff) //Split bTicks into upper and lower bytes
+	//
+	////var instruction []byte //Sets up byte array instruction
 
-	var instruction []byte //Sets up byte array instruction
-
-	instruction = []byte{byte(1),
-		byte(posXH), byte(posXL),
-		byte(posYH), byte(posYL)}
+	instruction := []byte(fmt.Sprintf("1 %d %d ", aTicks, bTicks))
+	//instruction = []byte{byte(1),
+	//	byte(posXH), byte(posXL),
+	//	byte(posYH), byte(posYL)}
 
 	sendCommand(instruction)
 

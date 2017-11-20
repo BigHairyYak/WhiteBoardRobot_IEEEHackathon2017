@@ -92,33 +92,19 @@ void loop() {
 
 //  if (Serial.available() > 0) {
 //    Serial.println("hello world");
-    byte s;
-    s = Serial.read();
+    int s;
+    s = Serial.parseInt();
+//    s = Serial.read();
     switch (s) {
       case 1:
-        // motion
-        unsigned char buf[4];
-        
-        Serial.readBytes(buf, 4);
-
-//      Serial.println((unsigned int)buf[0]);
-//      Serial.println((unsigned int)buf[1]);
-//      Serial.println((unsigned int)buf[2]);
-//      Serial.println((unsigned int)buf[3]);
-        int a; 
-        int b; 
-
-        a = (buf[0] << 8) | buf[1];
-        b = (buf[2] << 8) | buf[3];
-
-//        Serial.write(1);
-        
-//      Serial.println(a);
-//      Serial.println(b);
-
+      int a, b;
+      
+      a = Serial.parseInt();
+      b = Serial.parseInt();
+      
        moveToPosition(a, b); 
 
-       Serial.write(1);
+       Serial.println("good");
       break;
       case 2:
         stepper1.disableOutputs(); //Needs to be undone by calling enableOutputs() sometime later
