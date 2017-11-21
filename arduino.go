@@ -7,14 +7,14 @@ import (
 )
 
 func moveToCoordinate(x, y float64) {
-	initialBoardOffset := 29.5
+	initialBoardOffset := 3.5
 	moveToAbstractCoordinate(x, y+initialBoardOffset)
 }
 
 func moveToAbstractCoordinate(x, y float64) {
 	var a, b float64
 	lineOffset := 3.25
-	WidthOfPoints := 47.5
+	WidthOfPoints := 46.5
 
 	//fmt.Printf("%f, %f \n ", x, y)
 
@@ -24,8 +24,8 @@ func moveToAbstractCoordinate(x, y float64) {
 }
 
 func moveMotorsAbsolute(aInches, bInches float64) {
-	StartingA := 58.5
-	StartingB := 58.0
+	StartingA := 54.75
+	StartingB := 50.0
 
 	newA := StartingA - aInches
 	newB := StartingB - bInches
@@ -37,20 +37,20 @@ func moveMotorsInches(aInches, bInches float64) {
 	aRev := -1.0
 	bRev := -1.0
 	//fmt.Printf("Inches %f %f\n", aInches, bInches)
-	ticksPerInch := float64(136)
-	moveTicks(int(aInches*ticksPerInch*aRev), int(bInches*ticksPerInch*bRev))
+	ticksPerInch := 10.0 / 2.6
+	moveTicks(aInches*ticksPerInch*aRev, bInches*ticksPerInch*bRev)
 }
 
-func moveTicks(aTicks, bTicks int) {
+func moveTicks(aTicks, bTicks float64) {
 
-	fmt.Printf("%d\t%d\n", aTicks, bTicks)
+	fmt.Printf("%.2f\t%.2f\n", aTicks, bTicks)
 
 	//var posXH, posXL = uint8(aTicks >> 8), uint8(aTicks & 0xff) //Split aTicks into upper and lower bytes
 	//var posYH, posYL = uint8(bTicks >> 8), uint8(bTicks & 0xff) //Split bTicks into upper and lower bytes
 	//
 	////var instruction []byte //Sets up byte array instruction
 
-	instruction := []byte(fmt.Sprintf("1 %d %d ", aTicks, bTicks))
+	instruction := []byte(fmt.Sprintf("G0 Y%.2f X%.2f F300 \r\n", aTicks, bTicks))
 	//instruction = []byte{byte(1),
 	//	byte(posXH), byte(posXL),
 	//	byte(posYH), byte(posYL)}
@@ -80,7 +80,7 @@ func sendCommand(commandList []byte) {
 	_ = n
 	//fmt.Printf("Sent %v bytes\n", n)
 
-	reader.ReadByte()
+	reader.ReadLine()
 
 	//fmt.Println("finished")
 

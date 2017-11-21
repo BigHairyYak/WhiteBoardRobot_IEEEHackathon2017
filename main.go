@@ -3,11 +3,12 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/tarm/serial"
 	"log"
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/tarm/serial"
 )
 
 var s *serial.Port
@@ -35,7 +36,7 @@ func main() {
 	//}
 	//log.Printf("%q", buf[:n])
 
-	c := &serial.Config{Name: "/dev/tty.usbmodem1411", Baud: 9600}
+	c := &serial.Config{Name: "/dev/tty.usbserial-A4007c6d", Baud: 115200}
 	var err error
 
 	s, err = serial.OpenPort(c)
@@ -49,6 +50,8 @@ func main() {
 	//control(1, -1000, -1000)
 	//moveMotorsInches(0, 10)
 	//moveToCoordinate(-48, -20)
+
+	sendCommand([]byte("M92 X30 Y30 \r\n"))
 
 	http.HandleFunc("/draw", drawRequest)
 	http.HandleFunc("/command_list", commandListHandler)
