@@ -23,6 +23,17 @@ func moveToAbstractCoordinate(x, y float64) {
 	moveMotorsAbsolute(a, b)
 }
 
+//func home() {
+//	StartingA := 54.75
+//	StartingB := 50.0
+//	moveMotors
+//}
+
+func turnOffAndHome() {
+	moveMotorsInches(0, 0)
+	sendCommand([]byte("M18 \r\n "))
+}
+
 func moveMotorsAbsolute(aInches, bInches float64) {
 	StartingA := 54.75
 	StartingB := 50.0
@@ -50,7 +61,7 @@ func moveTicks(aTicks, bTicks float64) {
 	//
 	////var instruction []byte //Sets up byte array instruction
 
-	instruction := []byte(fmt.Sprintf("G0 Y%.2f X%.2f F300 \r\n", aTicks, bTicks))
+	instruction := []byte(fmt.Sprintf("G0 Y%.2f X%.2f F500 \r\n", aTicks, bTicks))
 	//instruction = []byte{byte(1),
 	//	byte(posXH), byte(posXL),
 	//	byte(posYH), byte(posYL)}
